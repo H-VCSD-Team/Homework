@@ -1,452 +1,433 @@
-# SWIP 02.24
+# C언어 4일차
 
-## strcmp
+포인터 사용할때는 **꼭 그림으로 그려**보면서 이해하기!!
 
-strcmp → 두 문자열 비교하고 같으면 0반환, 다르면 0 이외의 값 반환
+배열포인터 : 배열을 가르키는 포인터
 
-## void형 포인터
-
-void형 포인터는 어떤 자료형의 주소도 다 저장할수있다
-
-```c
-int a=3;
-void* p3=&a;		
-// *p3 = 4 --> 이거 불가능 (자료형 모르기 때문)
-(*(int*)p3) = 4;
-
-printf("%d", p3);
-```
-
-### strcmp
-
-문자열 일치 확인 함수
-
-```c
-char* str1="Hyun";
-char* str2 = "Hyundai";
-
-printf("%d",strcmp(str1, str2));
-
-출력:1
-```
-
-### 완벽하게 일치하지 않을때
-
-```c
-char* str1="Hyun";
-char* str2 = "Hyun";
-
-printf("%d",strcmp(str1, str2));
-
-출력:0
-```
-
-## const 위치
-
-```c
-const int* p1=NULL;	//값을 상수화( *p1 = 0  불가능
-int* const p2=NULL;	//주소를 상수화( p2 =0xffff 불가능)
-```
-
-## 2중 포인터
+배열포인터는 어떠한 배열의 주소를 가르킨다. 
+따라서 포인터 연산할때 (자료형 크기 x 배열의 길이) 만큼 주소 byte가 증가하게 된다.
 
 ```c
 int data = 3;
-	int* pD = &data;
-	int** pS = &pD;
+int* pD = &data;
+int** pS = &pD;
+
+int ary[5] = { 1,2,3 };
+int* pA = ary;
+
+char* pSt = "hyundai";		//문자열 상수를 가리키는 포인터, 수정 불가능
+char* pSa[3];				      //포인터 배열(위에 있는 주소 pSt가 3개 있는 배열) --> 배열의 각 요소는 문자열의 시작 주소이다( 시작 주소 3개를 저장한 배열이 됨)
+char** pDs = pSa;		      //포인터 배열의 배열명은 포인터가 저장된 배열의 시작주소인 이중 포인터		--> 시작 주소 3개를 저장한 배열의 시작 주소
+pSa[0];						        // 첫번째 string의 시작 주소
+
+char* pOne = pSa[0];		//pSa[0]은  첫번째 string의 시작 주소
+
+int ary1[5] = { 3,4,5 };
+int ary2[5] = { 6,7,8 };
+int ary3[5] = { 9,10,11 };
+
+//2차원 배열 선언과 동시 초기화
+int arydb[3][5] = { {3,4,5},{6,7,8},{9,10,11} }; //={ary1,ary2,ary3} 구조와 같음
+printf("arydb : %d \n", sizeof(arydb));			     // 4 x 3 x 5 =(int형)x 행 x 열
+
+//위의 arydb[0], arydb[1] .. 은 각 행의 시작주소이다.
+printf("sizeof(arydb[0])=%d\n", sizeof(arydb[0]));		//-> 4 x 5 = int형 x 열 크기
+
+//포인터 자료형 모를때 포인터 연산 해보기
+printf("0x%p\n", arydb[0]);
+printf("0x%p\n", arydb[0]+1);				   // 한 원소씩 건너뜀 --> 주소 4 증가했으므로 데이터는 int 형 single 포인터이다
+int* pTr = arydb[0];
+
+//포인터 연산으로 배열 출력하기
+printf("%d\n", *(arydb[0] + 0));			//*(arydb[0]+0)=arydb[0][0] = 3
+printf("%d\n", *(arydb[2] + 0));			//*(arydb[2]+0)=arydb[2][0] = 9
+printf("%d\n", *(arydb[1] + 0));			//*(arydb[1]+0)=arydb[1][0] = 6
+
+//2차원 배열의 이름도 2차원 배열의 시작주소임
+
+//2차원 배열의 이름 포인터로 알아내기
+printf("arydb : 0x%p\n", arydb);
+printf("arydb + 1 : 0x%p\n", arydb + 1);		//--> 주소 20 증가함 --> 한 행씩(5열 만큼=20바이트) 건너뜀
+//arydb는 주소 20씩 건너뛰는 포인터임
+
+//Display();		// 2차월 배열의 모든 요소를 출력하는 함수
+
+//int* pArdb = arydb;				//pArdb : 포인터 증감 연산시 4씩 건너뛰는 포인터, arydb: 20씩 건너뛰는 포인터
+int (*pArdb)[5] = arydb;		//pArdb	: 포인터 증감 연산시 5씩 건너뛰는 포인터(배열 포인터) --> 배열을 가르키는 포인터
+//배열 포인터 --> 배열을 가르키는 포인터
+//포인터 배열 --> 포인터를 저장한 배열
+
+arydb[0][0] == pArdb[0][0];		
+//arydb[0][0] : 직접 접근
+//pArdb[0][0] = *(*(pArdb+0)+0): 간접 접근	-> 포인터로 접근
+
+//예제) 다음과 같은 방법으로 2차원배열을 배열포인터에 대입할 수 있다.
+char str[5][30];
+char (*pS)[30]=str;		//배열 포인터 변수 선언과 동시 초기화
+char buf[10][30];
+pS = buf;				//건너뛰는 크기 30으로 같으므로 가능한 문법!
 ```
-
-## 1차원 배열
-
-```c
-int array[5];
-	int* pA = array;		//배열 매개변수로 전달할때 포인터로 전달한다
-	*(pA + 1) = pA[1];
-```
-
-## 2차원 배열
-
-```c
-//3. 2차원 배열
-int arrdb[3][5];
-//배열 포인터는 2차원 배열의 시작 주소를 가르키는 포인터
-printf("%d\n", sizeof(arrdb[0][0]));				//--> int 형 자료
-printf("%d\n", sizeof(arrdb[0]));					//1 행을 나타내는 시작주소 
-int* pT1 = arrdb[0];								//(자료형 = int*)
-printf("%d\n", *(arrdb[0] + 1) == arrdb[0][1]);		//--> 참
-
-printf("%d\n", sizeof(arrdb));						//2차원 배열의 시작주소
-printf("%d\n", arrdb == arrdb[0]);
-printf("%d\n", arrdb[0] == &(arrdb[0][0]));			//arrdb=arrdb[0]=&(arrdb[0][0])
-int(*pT)[5] = arrdb;	//2차원 배열 매개변수로 전달할때 배열 포인터로 전달한다.
-printf("%d\n", sizeof(pT));		//4
-printf("%d\n", pT[0] == pT);						//서로 같은 주소, 하지만 참조하는 포인터의 길이가 다르다
-printf("%d\n", sizeof(pT[0]));						//20
-printf("%d\n", sizeof(pT));							//4		서로 주소는 같지만 길이가 다르다
-```
-
-## string
-
-```c
-char* pS = "Hyundai";						//pS는 "Hyundai"라는 string 상수의 시작주소
-char Name[30] = "Hyundai";					//Name이라는 char형 배열에 "Hyundai" 복사되어 들어감
-```
-
-## 구조체 padding byte
 
 ```c
 #include <stdio.h>
 
-typedef struct {
-	char ch;					//1
-	//패딩 바이트 발생
-	char com_name[50];			//50
-	char team_name[50];			//50
-	int sawon;					    //4
-	double weight;				  //8
-}EMP;	//구조체 자료형 정의
+void StringDisplay(char (*pD)[50]) {
+	//Strbuf[0] == pD[0];
+	for (int idx = 0; idx < 3; idx++) {
+		printf("%s\n", pD[idx]);
+	}
+}
+
+void StringCpy(char(*pDest)[50], char**pSrc) {
+	int row = 0, col = 0;
+	for (row = 0; row < 3; row++) {
+		col = 0;
+		while (pSrc[row][col] != '\0') {
+			pDest[row][col] = pSrc[row][col++];
+		}
+
+		pDest[row][col] = '\0';
+	}
+}
 
 int main() {
+	char* pStr[3] = { "hyundai NGV","C programming","Study" };
+	char Strbuf[3][50];
 
-	//회사명, 부서명, 사원번호 3가지의 정보를 관리할 구조체 설계
-	printf("int size : %d\n", sizeof(int));      //4
-	printf("EMP size : %d\n", sizeof(EMP));      //120?? 
+	StringCpy(pStr,Strbuf);			//포인터 배열의 문자열을 strbuf 2차원 배열로 복사
+	StringDisplay(Strbuf);		//
 
 	return 0;
 }
 ```
 
-## char형 배열에 string 대입하기
-
-```c
-//배열명은 포인터 상수이기때문에 주소 변경할 수 없음!!
-	char buf[50];
-	**buf = "hyundai";**    **불가능!!!**
-	//이렇게 일일이 처야 한다
-  buf[0] = 'h';
-	buf[1] = 'y';
-	buf[2] = 'u';
-	buf[3] = 'n';
-	buf[4] = 'd';
-	buf[5] = 'a';
-	buf[6] = 'i';
-```
+## 함수 포인터
 
 ```c
 #include <stdio.h>
-#include <string.h>
 
-typedef struct {
-	char ch;					//1
-	//패딩 바이트 발생
-	char com_name[50];			//50
-	char team_name[50];			//50
-	int sawon;					//4
-	double weight;				//8
-}EMP;	//구조체 자료형 정의
+int AddDataFunc(int, int);	//함수 원형
+int SubDataFunc(int, int);	//함수 원형
+int MulDataFunc(int, int);	//함수 원형
 
-copyStr(char* str, int str_length, char* str_copy) {
-
-	for (int i = 0; i < str_length; i++) {
-		str[i] = '\0';
-	}
-	for (int i = 0; str_copy[i] != '\0'; i++) {
-		str[i] = str_copy[i];
-	}
-
+void Management(int (*pF) (int, int)) {
+	pF(3,3);
 }
-
-//동일한 구조체 = 구조체 변수는 멤버변수 대 멤버변수 자동 복사
-//구조체를 매개변수로 하는 함수는 구조체 아래 있어야 한다
-void DisplayData(EMP data) {
-	printf("EmployeeID : %d\n", data.ch);
-	printf("data.com_name : %s\n", data.com_name);
-	printf("Team name : %s\n", data.team_name);
-}
-
 int main() {
-
-	//배열과 동일하게 초기화 개수가 부족하면 
-	//부족한 부분은 자동으로 0으로 초기화
-	EMP data={ 5 , "Hyundai NGV", "QA" };
-	//구조체 변수 선언과 동시 초기화
-	//배열에서 초기화 요소 부족하면 나머지 0으로 초기화 되듯이
-	//구조체도 비슷하다.(0 = NULL)
-	printf("EmployeeID : %d\n", data.ch);
-	printf("data.com_name : %s\n",data.com_name);
-	printf("Team name : %s\n", data.team_name);
-
-	//실질적으로 데이터는 멤버 변수에 들어감
-	// 구조체는 데이터 시작 주소만 담고 있음
-	// (.) 은 구조체 멤버 직접 접근 연산자
-	// data.com_name = "hyundai";  //불가능
-	copyStr(data.com_name,50, "hyundai");
-	DisplayData(data);
-
-	return 0;
-}
-```
-
-## 구조체 함수 포인터 전달
-
-```c
-#include <stdio.h>
-
-typedef struct {
-	//패딩 바이트 발생
-	int EmployeeID;					//4
-	char ComName[30];				//50
-	char Management[30];			//50
 	
-}EMP;	//구조체 자료형 정의
+	int val = 5;
+	int data = 3;
+	int res = 0;;
 
-void DisplayInfo(EMP* m_pi, int length);
-
-int main() {
-
-	EMP personinfo[3] = {   {100,"Hyundai","car"},			//personinfo[0]
-							{200,"KIA","Machine"},			//personinfo[1]
-							{300, "NGV","QA" }};			//personinfo[2]		//구조체 배열-->엄청나게 큰 용량잡아먹음, 동시 초기화
+	//배열명 ==> 배열의 시작주소
+	//함수명 ==> 함수의 시작주소
+	res = AddDataFunc(val, data);  //직접호출 : 함수명으로 호출
 	
-	DisplayInfo(personinfo,3);
+	//함수 포인터 선언과 동시에 초기화
+	int (*pF) (int,int) = *AddDataFunc;
+	res = pF(val, data);		//간접 호출
+
+	printf("res: %d\n", res);
+
+	pF = SubDataFunc;
+	res = pF(val, data);
+	printf("res: %d\n", res);
+
+	pF = MulDataFunc;
+	res = pF(val, data);
+	printf("res: %d\n", res);
+
+	Management(pF);
+
+	//함수 포인터 배열
+	int(*pF1[3])(int, int) = { AddDataFunc ,SubDataFunc ,MulDataFunc };
 
 	return 0;
 }
 
-void DisplayInfo(EMP* m_pi,int length) {
-	for (int i = 0; i < length; i++) {
-		printf("%d\n", m_pi[i].EmployeeID);
-		printf("%s\n", m_pi[i].ComName);
-		printf("%s\n", m_pi[i].Management);
-	}
+int AddDataFunc(int Va, int Da) {
+	
+	return Va + Da;
+}
+
+int SubDataFunc(int Va, int Da) {
+
+	return Va - Da;
+
+}
+
+int MulDataFunc(int Va, int Da) {
+
+	return Va * Da;
 }
 ```
 
-## 구조체 동적할당으로 함수 내부에서 자료 생성하고 main문으로 동적할당 주소 보내주기
+[SoEn:소프트웨어 공학 연구소](http://soen.kr/)
+
+VOID형 포인터
+
+```c
+int data = 9;
+
+//void형 포인터 - 어떤 변수의 주소값도 저장이 가능한 포인터
+void* pD = &data;
+
+//*pD = 12;     불가능한 코드! 자료형 뭔지 몰라서 몇바이트 접근할지 알수없음
+*((int*)pD) = 12;		//강제로 인트형 포인터로 형변환 해야한다
+
+printf("%d\n", data);
+```
+
+## 동적할당
+
+```c
+void* malloc(size_t size);
+
+void* pNew = malloc(20);						//heap 메모리 20byte 할당 요청		
+int* pNew2= (int*)malloc(sizeof(int) * 5);		//malloc 반환시에 int 포인터로 형변환 하여 바로 넘겨준다
+//typedef ==> 컴파일러가 알고있는 기존 자료형을 새로운 자료형 이름으로 부여해서 사용
+
+//할당 성공시 ==> 20byte heap 영역의 시작주소 반환해줌  ==> void 형 포인터로 받아야 한다.
+//할당 실패시 ==> Null 포인터 반환()
+int* ptr = NULL;	//널 포인터 ==> 아무것도 가르키지 말라
+ 
+if (pNew == NULL) {		//동적할당 실패에 대한 error handling code
+	printf("동적 메모리 할당 실패!\n");
+	return -1;		//비정상 종료
+}
+
+//동적할당된 공간 접근 --> void 형 포인터는 자료형 모르기 때문에 접근할 포인터 데이터양 알아야 한다
+*((int*)pNew) = 50;
+*((int*)pNew+1) = 60;
+*((int*)pNew+2) = 70;
+
+*(pNew2 + 0) = 50;		//pNew[0]
+*(pNew2 + 1) = 90;		//pNew[1]
+pNew2[2] = 60;
+pNew2[3] = 100;
+pNew2[4] = 120;
+pNew2[5] = 140;
+
+for (int idx = 0; idx < 5; idx++) {
+	printf("%d\n", pNew2[idx]);
+}
+
+free(pNew);		//동적 메모리 해제 함수
+```
 
 ```c
 #include <stdio.h>
+#include <stdlib.h>
+char* InsertCompany(void) {
+	//회사 이름 입력 받게 설정
+	//char* companyname = (char*)malloc(50);
+	static char companyname[50];
 
-typedef struct {
-	//패딩 바이트 발생
-	int EmployeeID;					//4
-	char *ComName;				//50
-	char *Management;			//50
+//밑에 TestString 함수 있을때도 맞게 실행되려면 
+//1. static 사용--> static으로 선언하면 데이터 영역에 저장되어 함수가 종료되도 
+//스택 포인트는 내려오지 않고 계속 남아있고 단지 접근 범위를 함수 내에서만 하게 된거
 
-}EMP;	//구조체 자료형 정의
+//2. heap memory 사용하여 문자열 --> heap 메모리는 해제하기 전까지 남아있음
+//함수 종료되어도 해제하지 않으면 메모리에 남아잉ㅆ다
 
-EMP* InsertData(void);
-void DisplayData(EMP* data);
-void freeEMP(EMP* m_emp);
+	if (companyname != NULL) {
+	gets_s(companyname, 50);
+}
+
+	return companyname;
+
+}
+
+void DisplayCompany(char* pD) {
+	printf("%s", pD);
+}
+
+void TestString(void) {
+	char Buf[50] = "Test String";
+
+	char* companyname2 = (char*)malloc(50);
+	companyname2 = "Test String2";
+}
 
 int main() {
-	EMP* pSt = NULL;
-	pSt = InsertData();			//1사람의 정보를 입력, 저장
-	DisplayData(pSt);
+
+	char* pSt;
+	pSt = InsertCompany();					//회사 이름을 입력, 저장하는 함수
+	TestString();
+	DisplayCompany(pSt);					//입력한 회사 이름을 출력하는 함수
+
+	return 0;
+}
+```
+
+## 동적할당 함수 이용
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+void MyStrcpy(char* pDest, char* pSrc);
+
+char* InsertCompany(void) {
+	//회사 이름 입력 받게 설정
+	//char* companyname = (char*)malloc(50);
+	char companyname[50];
+	char* p_companyname=NULL;		
+	if (companyname != NULL) {
+	gets_s(companyname, 50);
+}
+	int slen = 0;
+	while (companyname[slen] != '\0') {
+		slen++;
+	}
+	
+	p_companyname = (char*)malloc(sizeof(char) * (slen+1));		//--> 포인터 변수 p_companyname은 사라지지만, 
+	//malloc으로 스택에 할당된 메모리 자체는 해제되지 않는다
+	//따라서 p_companyname 포인터 변수를 return 하여 나중에 동적할당 해제할수 있게 한드아!
+	//+1한 이유는 문자열 끝에 NULL문자를 넣기 위해서 추가한거
+	MyStrcpy(p_companyname, companyname);
+
+	return p_companyname;
+
+}
+
+void DisplayCompany(char* pD) {
+	printf("%s", pD);
+}
+
+void TestString(void) {
+	char Buf[50] = "Test String";
+
+	char* companyname2 = (char*)malloc(50);
+	companyname2 = "Test String2";
+}
+
+void MyStrcpy(char* pDest, char* pSrc) {
+	while (*pSrc != '\0')
+		*pDest++ = *pSrc++;
+	*pDest = '\0';
+}
+
+int main() {
+
+	char* pSt;
+	pSt = InsertCompany();					//회사 이름을 입력, 저장하는 함수
+	//pSt에는 heap에 동적할당된 데이터의 첫 주소가 저장된다.
+	//나중에 pSt로 동적할당 해제하면 됨
+	TestString();
+	DisplayCompany(pSt);					//입력한 회사 이름을 출력하는 함수
 	free(pSt);
+
 	return 0;
-}
-
-void freeEMP(EMP* m_emp) {
-	free(m_emp->ComName);
-	free(m_emp->Management);
-	free(m_emp);
-	m_emp = NULL;
-}
-
-EMP* InsertData(void) {
-
-	EMP* m_emp;
-	m_emp = (EMP*)malloc(sizeof(EMP));		//heap에 할당하여 함수 종료되도 메모리에 남아있게 한다
-	m_emp->ComName = (char*)malloc(sizeof(char) * 20);
-	m_emp->Management = (char*)malloc(sizeof(char) * 20);
-	printf("EmployeeID 입력하시오\n");
-	scanf_s("%d", &(m_emp->EmployeeID));
-	printf("ComName 입력하시오\n");
-	scanf_s("%s", m_emp->ComName,20);
-	printf("Management 입력하시오\n");
-	scanf_s("%s", m_emp->Management,20);
-
-	return m_emp;
-}
-
-void DisplayData(EMP* data) {
-
-	printf("EmployeeID : %d\n", data->EmployeeID);
-	printf("data.com_name : %s\n", data->ComName);
-	printf("Team name : %s\n", data->Management);
-
 }
 ```
 
-## 함수 내부에서 동적할당 후 main 문에서 동적할당된 메모리 이용
-
 ```c
 #include <stdio.h>
-char* dongjuck(void);
+#include <stdlib.h>
+
+int* InsertData(void);
+void DisplayData(int* pD);
 
 int main() {
-	char* arr=NULL;
-	arr=dongjuck();
-	free(arr);
-
-	return 0;
-}
-
-char* dongjuck(void) {
-
-	char* temp_add;
-
-	temp_add = (int*)malloc(sizeof(char) * 10);		//int형 자료 10개 들어가는 배열을 동적할당하고 시작주소를 temp_add에 반환함
-	scanf_s("%s", temp_add,10);						//printf로 string 받을때 문자열 자리수 끝에 넣어줘야함
-
-	return temp_add;
-}
-```
-
-동적할당을 함수 내부에서 하면 메모리 heap 영역이 확보되고 시작 주소를 포인터로 반환한다. 
-
-**함수가 종료되어도 malloc으로 확보된 heap 메모리 영역은 사라지지 않기 때문에** 포인터 주소를 return 하면 main 문에서도 동적 할당된 메모리를 사용할 수 있다.
-
-## Stack 구현
-
-```c
-#include <stdio.h>
-
-typedef struct {
-	//패딩 바이트 발생
-	int EmployeeID;					//4
-	char ComName[30];				//50
-	char Management[30];			//50
-}EMP;
-
-void PushStack(EMP* pPush, int* pSp);
-int DisplayMenu(void);
-EMP PopStack(EMP* pPop, int* pSp);
-void DisplayStack(EMP* pDis, int pSp);
-
-int main() {
-	EMP Stack[5];
-	//stack : 포인터를 제어하여 꺼낼 위치를 제어함
-	int Sp = 0;			//스택 위치 조절 변수
-	int selmenu = 0;
-	EMP popdata;
-	while (1) {
-		selmenu = DisplayMenu();
-
-		switch (selmenu) {
-		case 1:
-			if (Sp < 5)
-				PushStack(Stack, &Sp);		//스택 공간에 데이터를 저장
-			else
-				printf("Full Stack!\n");
-			break;
-		case 2:
-			if (Sp > 0)
-			{
-				popdata = PopStack(Stack, &Sp);
-				printf("popdata : %d, %s, %s \n", popdata.EmployeeID, popdata.ComName, popdata.Management);
-			}
-			else
-				printf("Empty Stack!\n");
-			break;
-		case 3:
-			DisplayStack(Stack,Sp);
-			break;
-		case 4:
-			printf("프로그램 종료!!\n");
-			break;
-		}
-		if (selmenu == 4) {
-			
-		}
-
-	}
-	return 0;
-}
-
-EMP PopStack(EMP* pPop,int * pSp) {
-	return pPop[--(*pSp)];
-}
-
-void PushStack(EMP* pPush,int* pSp)
-{	
-	printf("EmployeeID 입력 : ");
-	scanf_s("%d", &pPush[*pSp].EmployeeID);
-	printf("ComName 입력 : ");
-	scanf_s("%s", pPush[*pSp].ComName,30);
-	printf("Management 입력 : ");
-	scanf_s("%s", pPush[*pSp].Management,30);
-	(*pSp)++;
-
-}
-
-void DisplayStack(EMP* pDis, int pSp) {
-	if (pSp == 0)
-		return;
-	for(int idx=pSp-1;idx>=0;idx--)
-	{
-	printf("EmployeeID: %d\n", pDis[idx].EmployeeID);
-	printf("ComName : %s\n", pDis[idx].ComName);
-	printf("Management : %s\n", pDis[idx].Management);
-	}
-}
-
-int DisplayMenu(void) {
-
-	int sel = 0;
-	printf("1. PushStack\n");
-	printf("2. PopStack\n");
-	printf("3. Displaystack\n");
-	printf("4. Exit \n");
-	scanf_s("%d", &sel);
-	while (getchar() != '\n');
-	return sel;
-}
-```
-
-( Last In First Out → LIFO 구조)
-
-나중에 들어온 데이터가 제일 먼저 나가게 되는 구조
-
-stack index 변수를 생성하여, 데이터를 넣고 뺄때마다 stack index 변수값을 조절한다
-
-## Linked List
-
-```c
-#include <stdio.h>
-
-#include <stdio.h>
-
-typedef struct person{
-	//패딩 바이트 발생
-	char ComName[30];		
-
-	struct person* next;		//자기 참조 포인터
-}EMP;
-
-int main(){
 	
-	EMP* pSt = NULL;
-	EMP* pBackup;
-	EMP data1 = {"Hyundai"};
-	EMP data2 = { "NGV" };
-	EMP data3 = { "Study" };
-	pSt = &data1;
-	data1.next = &data2;		
-	data2.next = &data3;
-	data3.next = NULL;
-	pBackup = pSt;
-
-	while (pBackup != NULL) {
-		printf("출력 : %s \n", pBackup->ComName);
-		pBackup = pBackup->next;
-	}
-
+	int* pSt = NULL;
+	pSt = InsertData();
+	DisplayData(pSt);
 	return 0;
+}
+
+int* InsertData(void) {
+	//몇개의 정수를 입력 받기를 원하세요?
+	printf("몇개의 정수 입력 받기 원하는지 쓰시오\n");
+	int many = 0;
+	scanf_s("%d", &many);
+	int* num = NULL;
+	num = (int*)malloc(sizeof(int) * (many+1));
+	//원래의 메모리 크기보다 4바이트 크게하여 정수의 개수를 int형으로 따로 저장하면 됨
+	num[0] = many;
+	for (int i = 1; i <= many; i++) {
+		printf("%d번째 정수 입력하세요", i);
+		scanf_s("%d", num + i);
+	}
+	//예) 5 입력시 ==> 20byte 동적 메모리 확보 하고 저장
+	//예) 7 입력시 ==> 28 byte 동적 메모리 확보하고 저장
+	return num;
+}
+
+void DisplayData(int* pD) {
+	//입력한 정수의 개수만큼 모든 정수 출력
+	int cnt = pD[0];
+	for (int i = 1; i <= cnt; i++) {
+		printf("%d번째 정수: %d\n", i,pD[i]);
+	}
+	// 동적메모리 해제
 }
 ```
 
-## 구조체 비트필드
+```c
+#include <stdio.h>
+#include <stdlib.h>
 
-→ 임베디드에서 봄
+int* InsertData(void);
+void DisplayData(int* pD);
+
+//return 갯수 부족하면, 포인터 이용해서 전달 가능하다!!!
+//포인터를 전달할때는 이중 포인터 이용해서 전달할 수 있음
+
+int main() {
+	
+	int* pSt = NULL;
+	pSt = InsertData();
+	DisplayData(pSt);
+
+	free(pSt);
+
+	return 0;
+}
+
+int* InsertData(void) {
+	//몇개의 정수를 입력 받기를 원하세요?
+	printf("몇개의 정수 입력 받기 원하는지 쓰시오\n");
+	int many = 0;
+	scanf_s("%d", &many);
+	int* num = NULL;
+	num = (int*)malloc(sizeof(int) * (many+1));
+	//원래의 메모리 크기보다 4바이트 크게하여 정수의 개수를 int형으로 따로 저장하면 됨
+	num[0] = many;
+	for (int i = 1; i <= many; i++) {
+		printf("%d번째 정수 입력하세요", i);
+		scanf_s("%d", num + i);
+	}
+	//예) 5 입력시 ==> 20byte 동적 메모리 확보 하고 저장
+	//예) 7 입력시 ==> 28 byte 동적 메모리 확보하고 저장
+	return num;
+}
+
+void DisplayData(int* pD) {
+	//입력한 정수의 개수만큼 모든 정수 출력
+	int cnt = pD[0];
+	for (int i = 1; i <= cnt; i++) {
+		printf("%d번째 정수: %d\n", i,pD[i]);
+	}
+	// 동적메모리 해제
+}
+```
+
+완전 실무 엔지니어 처럼 수업해주심
+
+진짜 빡세다
+
+포인터 거의 정복한것 같음
+
+시험은 쉽게 나오는데
+
+## 구조체
+
+- 배열 단점
+모든 자료형이 동일해야 하는 점
+→자료형이 다른 많은 양의 데이터를 효율적으로 관리하기 위해 구조체 자료형 만든다
+- structure--> struct
+- 자료형 → 사용자 직접 정의한 자료형(사용자 정의 자료형)
+- 컴파일러는 위에서 아래로 내려온다 & 함수에서 구조체 쓰일수 있다. 
+→ 구조체 코드에서 맨 위에 있어야 한다.

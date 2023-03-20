@@ -3,11 +3,11 @@
 
 ※뇌피셜로 제작되었기 때문에 틀린 부분이 있을수 있습니다.
 
-### Git
+**Git**
 
-파일의 버전별 상태를 저장하는 프로그램
+- 파일의 버전별 상태를 저장하는 프로그램
 
-예) Kona.V1이 업그레이드 되어 Kona.V5가 될 경우 Git을 이용하면 Kona.V1~Kona.V4 까지의 모든 버전들로 돌아갈 수 있음
+- 예) Kona.V1이 업그레이드 되어 Kona.V5가 될 경우 Git을 이용하면 Kona.V1~Kona.V4 까지의 모든 버전들로 돌아갈 수 있음
 
 # Git 작동과정
 
@@ -18,15 +18,15 @@
 
 **add**
 
-local(개인 컴퓨터)의 working directory에서 파일 데이터가 업그레이드 했을때, 업데이트 된 데이터들을 모아 stage에 올리는 과정
+- local(개인 컴퓨터)의 working directory에서 파일 데이터가 업그레이드 했을때, 업데이트 된 데이터들을 모아 stage에 올리는 과정
 
 **commit**
 
-stage에 올라간 데이터들을 모아서 Git 프로그램 형태로 local에 저장함
+- stage에 올라간 데이터들을 모아서 Git 프로그램 형태로 local에 저장함
 
 **push**
 
-commit된 Git 프로그램을 Github 같은 Repository에 올린다
+- commit된 Git 프로그램을 Github 같은 Repository에 올린다
 
 > Repository → Local
 > 
@@ -35,9 +35,12 @@ commit된 Git 프로그램을 Github 같은 Repository에 올린다
 
 **pull**
 
-Repository 의 Git 상태를 local에 적용함
+- Repository 의 Git 상태를 local에 적용함
 
-즉 Repository의 환경을 Local로 옮김
+- 즉 Repository의 환경을 Local로 옮김
+
+<br/>
+<br/>
 
 # SourceTree
 
@@ -67,3 +70,9 @@ https://토큰키@깃허브 repository 주소 → 이렇게 하면 된다
 ## SourceTree와 Git 연동
 
 [https://www.youtube.com/watch?v=8AtHcXnJSdA](https://www.youtube.com/watch?v=8AtHcXnJSdA)
+
+<br/>
+
+# MarkDown
+
+[주소] https://80000coding.oopy.io/bbfbfed5-d55c-4aaf-a2b8-b52578472d0d
