@@ -1,28 +1,28 @@
 
 # 자동차 소프트웨어 공학 2일차
 
+<br>
+
 Concern VS Requirment   
 > 차이점?    
 > Concern은 단지 '아 이거 필요한데?'라는 생각이다.  
 > Requirment(요구사항)은 생각을 실제로 필요한 내용으로 변환한 것이다.
+
+<br>
 
 Function(기능) VS Non-Function(비기능)
 > 요구사항은 기능과 비기능으로 나눠져 있고 비기능은 품질요구사항(Ex.성능, 보안) 제약사항으로 나누어져 있다.   
 > SW요구사항은 크게 두가지(기능&비기능)로 이루어짐   
 > 기능 혹은 비기능이 추가되면 Trade-off 성질이 발생 (Ex.성능이 올라가면 정확도가 떨어진다.)   
 
-예시문제(기출 예정)    
+<br>
 
-<img src="./../IMG/0802.PNG" width="450px" height="210px" title=" " alt="예시 문제_수빈누나"></img><br/>   
 * * *
-
 ## 소프트웨어 모델링 언어
 * * *
  Unified Modeling Language (UML 모델링 언어)    
- 
-<img src="./../IMG/0801.PNG" width="450px" height="320px" title=" " alt="UML"></img><br/>   
 
-그림에서 빨산색 박스 친 부분만 알면 된다.   
+다음의 다이어그램만 알아두면 된다. 
 - 클래스 다이어그램
 - 액티비티 다이어그램
 - 유스 케이스 다이어그램
@@ -33,16 +33,16 @@ Function(기능) VS Non-Function(비기능)
 > ASPICE와 다르게 더 구체적인 방향성을 제시   
 > ASIL 같은 경우 국제 스탠다드로 A,B,C,D 등급으로 이루어져 있으며 등급이 높을수록(D에 가까울 수록) BAD   
 
-Class Diagram   
-> 추가 작성 필요 ㅠㅠ 왜이리 빨리 넘어가....
->
+<br>
 
-Usecase Diagram(추후에 다시 설명 예정)    
+Usecase Diagram
 
-- 개요
+개요
 > 사용자의 시각에서 SW 시스템의 범위와 기능을 정의한 모델   
-> Actor와 Use case간의 관계를 정적으로 표현   
-- 구성요소
+> Actor와 Use case간의 관계를 정적으로 표현 
+  
+
+구성요소
 > Actor, Usecase   
 > 관계 : Association, Generalization, include, extend     
   
@@ -55,18 +55,16 @@ Usecase Diagram(추후에 다시 설명 예정)
 3. 시스템의 내부 작동 방식을 포함해서 구체성 확보
 4. 기능적 요구사항을 모두 포함하도록 작성
 
+<br>
 
 Sequence Diagram (순차 다이어그램)   
 
  기능 모델링의 결과로 식별된 유스 케이스별로 작성    
 
 
-구성요소 : 실행 사건, 메시지 전달, 제어 로직     
+>구성요소 : 실행 사건, 메시지 전달, 제어 로직     
 
-실습 사진    
-
-<img src="./../IMG/0803.PNG" width="450px" height="220px" title=" " alt="EA"></img><br/>  
-
+<br>
 
 State Machine Diagram (상태기계 다이어그램)     
 
@@ -74,35 +72,32 @@ State Machine Diagram (상태기계 다이어그램)
    
 시스템이 어느 한 상태에 존재하다가 이벤트가 발생하면 다른 상태로 전이하는 동작을 표현   
 
-상태기계 다이어그램 : 객체의 상태 변화 표현    
-
-상태 전이를 유발하는 레이블 표현 형식    
-
-<img src="./../IMG/0804.PNG" width="500px" height="80px" title=" " alt="SMD"></img><br/>  
+>상태기계 다이어그램 : 객체의 상태 변화 표현    
+>상태 전이를 유발하는 레이블 표현 형식    
 
 
+<br>
 
 * * *
 ## 소프트웨어 요구사항 개요
 * * *
 
-프로젝트 10대 실패 요인     
-
-<img src="./../IMG/0805.PNG" width="450px" height="310px" title=" " alt="SMD"></img><br/>      
+<br>     
 
 소프트웨어 공학의 목표는?   
 
-계획된 개발 기간내에 소프트웨어 개발이 이루어질 수 있도록 개발 프로세스를 관리     
+- 계획된 개발 기간내에 소프트웨어 개발이 이루어질 수 있도록 개발 프로세스를 관리     
    
-소프트웨어 개발에 관리기법을 적용하여 인력, 물적자원(예산,툴등) 효율적으로 관리    
+- 소프트웨어 개발에 관리기법을 적용하여 인력, 물적자원(예산,툴등) 효율적으로 관리    
+
+<br>
 
 * * *
 ## 소프트웨어 시스템과 컨텍스트
 * * *
 
-Stakeholders and Concerns
+<br>
 
-<img src="./../IMG/0806.PNG" width="450px" height="190px" title=" " alt="Stakeholders and Concerns"></img><br/> 
 
 SDLC – Requirements Gathering    
 
@@ -116,6 +111,7 @@ SDLC – Software Design
 
 - 소프트웨어 설계
 
+<br>
 
 요구사항 분석에서 가장 먼저 하는 것?    
 
@@ -127,15 +123,14 @@ SDLC – Software Design
 >  - 특정 릴리즈에 대한 범위 정의 : Divide and Conquer
 >  - 범위확장 관리
 
-컨텍스트 다이어그램 예시    
-
-<img src="./../IMG/0807.PNG" width="450px" height="300px" title=" " alt="Stakeholders and Concerns"></img><br/> 
-
+<br>
 
 
 * * *
 ## 소프트웨어 시스템 문맥 (Context) 다이어그램
 * * *
+
+<br>
 
 Static Modeling   
 
@@ -149,6 +144,8 @@ Static Modeling
 * * *
 ## 소프트웨어 시스템 요구사항이란?
 * * *
+
+<br>
 
 요구사항 : 소프트웨어 시스템이 수행해야 할 것과 소프트웨어 시스템에 있어야 할 특성을 기술한 문장   
 
@@ -168,6 +165,8 @@ Static Modeling
 > 조직의 지침에 대한 적용의 필요성   
 > 국내, 국제 표준(Standards)에 대한 적용 필요성    
 
+<br>
+
 Functional vs. Non-Functional Requirements   
 
 >  Functional Requirements : 입력 대비 출력의 변형   
@@ -186,13 +185,7 @@ Functional vs. Non-Functional Requirements
 
 +) 요구사항에서 추적성이 굉장히 중요하다.
 
-
-* * *
-## 요구사항을 분석하라
-* * *
-요구사항 요약    
-
-<img src="./../IMG/0808.PNG" width="450px" height="230px" title=" " alt="Stakeholders and Concerns"></img><br/>     
+<br>
 
 
 * * *
@@ -204,19 +197,8 @@ Functional vs. Non-Functional Requirements
 > Use Case이름을 어떻게 지어야 할까?   
 > '동사' (어떤 동작을 하는지)가 들어가야 한다.   
 
+<br>
 
-
-
-* * *
-## 요구사항 명세서 작성하기
-* * *
-
-* * *
-## 비기능 요구사항 모델링
-* * *
-
- * * *
-## 소프트웨어 아키텍처 개념
 * * *
 
 
