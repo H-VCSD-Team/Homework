@@ -1,13 +1,10 @@
-# C++ 3일차
-
 # 객체지향 프로그래밍
 
-<aside>
-🏛️ class
+<aside> 🏛️ class
 
 </aside>
 
-## class 생성
+**class 생성**
 
 ```cpp
 #include <iostream>
@@ -52,13 +49,11 @@ int main() {
 - 클래스 : 설계도, 객체 : 설계도로 만들어진 모든 대상, 사용자 정의 타입
 - 인스턴스 : 객체에 개인적인 속성을 부여함
 
-### access  modifier(접근 제한자)→클래스 외부에서 멤버 접근 에 따라 구분
+**access  modifier(접근 제한자)→클래스 외부에서 멤버 접근 에 따라 구분**
 
-private : C++ default(외부에서 멤버변수 접근 불가능 하다)
-
-public : 외부에서 멤버변수 접근 가능
-
-protected : ??
+1. private : C++ default(외부에서 멤버변수 접근 불가능 하다)
+2. public : 외부에서 멤버변수 접근 가능
+3. protected : 상속받은 자식에서만 접근 가능
 
 왜 굳이 private 사용하는지? → OOP 설계 방식(캡슐화)
 
@@ -66,13 +61,13 @@ protected : ??
 
 public 멤버 함수로 변수에 접근하게 설계한다
 
-## 배포
+**배포**
 
 class 생성: 헤더파일, 그냥 베포
 
 class의 멤버함수 정의 : .cpp파일, 컴파일 후에 베포한다
 
-### 객체를 만드는 2가지 방법
+**객체를 만드는 2가지 방법**
 
 ```cpp
 //1. Stack에 만듬
@@ -87,19 +82,18 @@ GUGU->getHP();
 delete GUGU;
 ```
 
-스택과 힙의 차이점
+**스택과 힙의 차이점**
 
 1. stack에 만들면, return 0 하면 메모리에서 삭제됨
-2. heap에 만들면, delete 하기 전까지 heap 메모리에서 삭제되지 않는다
-따라서 꼭 delete 해줘야함!!!(메모리 누수 발생 방지)
+2. heap에 만들면, delete 하기 전까지 heap 메모리에서 삭제되지 않는다 따라서 꼭 delete 해줘야함!!!(메모리 누수 발생 방지)
 
-생성자/소멸자
+**생성자/소멸자**
 
-생성자 : 객체를 생성할때 세팅을 하는데 도움을 주는 함수
+- 생성자 : 객체를 생성할때 세팅을 하는데 도움을 주는 함수
+- 복사생성자 : 객체가 복사될때 실행되는 함수( default는 얕은 복사 )
+- 소멸자: 객체가 사라질때 도움을 주는 함수(public 필수)
 
-복사생성자 : 
-
-소멸자: 객체가 사라질때 도움을 주는 함수(public 필수)
+**생성자 소멸자 예제**
 
 ```cpp
 #include <iostream>
@@ -113,12 +107,10 @@ private:
 public:
 
 	//생성자
-	CIRCLE();
-	CIRCLE(int m_radius);
-	CIRCLE(const CIRCLE& c1);
-
-	//소멸자
-	~CIRCLE();
+	CIRCLE();                     //기본 생성자
+	CIRCLE(int m_radius);         
+	CIRCLE(const CIRCLE& c1);     //복사 생성자
+	~CIRCLE();                    //소멸자
 
 	void getRadius(int radius);
 	int print();
@@ -135,10 +127,10 @@ int CIRCLE::print() {
 	return radius;
 }
 
-CIRCLE::CIRCLE(const CIRCLE& c1)
+CIRCLE::CIRCLE(const CIRCLE& c1)     //복사 생성자 
 : radius(c1.radius)
 {
-	cout << "응애 나복사원" << endl;
+	cout << "응애 나복사 원" << endl;
 }
 
 CIRCLE::CIRCLE(int m_radius) 
@@ -173,12 +165,13 @@ int main() {
 
 	return 0;
 }
-
 ```
 
-this
+**this**
 
 보통 객체 자기 자신을 return 할때 사용됨
+
+this 예제
 
 ```cpp
 #include <iostream>
@@ -217,7 +210,7 @@ int main() {
 bye-bye 200
 ```
 
-Smart Pointer
+**Smart Pointer**
 
 동적할당 하고 자동으로 함수 범위가 끝나면 delete 해줌
 
@@ -241,6 +234,8 @@ int main() {
 ```
 
 class 정의한후, 스마트포인터로 객체 생성
+
+make_unique 이용
 
 ```cpp
 #include <iostream>
@@ -284,9 +279,11 @@ int main() {
 객체 사라짐!
 ```
 
-스마트포인터를 사용하면 객체는 자동으로 동적할당이 해제된다
+스마트포인터를 사용하면 객체는 자동으로 동적할당이 해제된다!
 
-## Static 멤버변수
+## Static
+
+**Static 멤버변수**
 
 ```cpp
 #include <iostream>
@@ -332,15 +329,12 @@ int main() {
 1. class 선언 외부에서 초기화 해야함
 2. 변수를 공유하므로, 다른 instance에서 접근해도 그 값은 같다
 
-## const
+**const 변수, 함수**
 
-1. 멤버변수 뒤에 —> 값이 변하지 않음
-2. 멤버함수 뒤에 → 함수 안에서 변수 값을 변경할수 없다
-3. 
+- 멤버변수 뒤에 → 값이 변하지 않음
+- 멤버함수 뒤에 → 함수 안에서 변수 값을 변경할수 없다
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ccbbb0a8-a58f-4760-a38e-efb5f0b6cfb0/Untitled.png)
-
-# 상속
+**상속**
 
 ```cpp
 #include <iostream>
@@ -367,7 +361,7 @@ int main() {
 공격
 ```
 
-## 위임(delegation)
+**위임(delegation)**
 
 객체 내부변수에 다른 객체를 생성하고, 그 다른 객체의 기능(함수)들을 원래 객체에서 이용할 경우에 위임이라고 한다.
 
@@ -420,16 +414,43 @@ int main() {
 }
 ```
 
-**생성사,소멸자, 할당연산자는 상속되지 않음→**
-서브클래스가 슈퍼클래스보다 확장되어 더 많은 멤버를 갖기 때문에 불필요
+**생성사,소멸자, 할당연산자는 상속되지 않음** →서브클래스가 슈퍼클래스보다 확장되어 더 많은 멤버를 갖기 때문에 불필요
 
-오버로드 vs 오버라이드
+**오버로드 vs 오버라이드**
 
-오버로드 : 함수 매개변수를 다르게 하여 입력 매개변수에 따라 함수 작동을 다르게 함
+- 오버로드 : 함수 매개변수를 다르게 하여 입력 매개변수에 따라 함수 작동을 다르게 함
+- 오버라이드 : 상속하여 메소드 함수를 재정의함
 
-오버라이드 : 상속하여 메소드 함수를 재정의함
+**함수 오버라이드**
 
-## 함수 오버라이드
+함수 이름도 같고, input 자료형도 같음(주로 상속일때 발생), 오버라이딩(Overriding, 재정의)는 부모 클래스와 자식 클래스의 상속 관계에서, 부모 클래스에 이미 정의된 함수를 같은 이름으로 자식 클래스에서 재정의 하는것을 의미합니다
 
-함수 이름도 같고, input 자료형도 같음(주로 상속일때 발생),
-오버라이딩(Overriding, 재정의)는 부모 클래스와 자식 클래스의 상속 관계에서, 부모 클래스에 이미 정의된 함수를 같은 이름으로 자식 클래스에서 재정의 하는것을 의미합니다
+```cpp
+#include <iostream>
+using namespace std;
+
+class SUPER {
+public:
+	void print();
+
+};
+
+void SUPER::print() {
+	cout << "super hoho" << endl;
+}
+
+class SUB : public SUPER {
+public:
+	void print();
+};
+
+void SUB::print() {	//오버라이드 , 함수 시그니처 같음
+	cout << "sub haha" << endl;
+}
+
+int main() {
+	SUB* s = new SUB();
+	s->print();
+	return 0;
+}
+```

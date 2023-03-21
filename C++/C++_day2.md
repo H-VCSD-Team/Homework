@@ -1,10 +1,8 @@
-# C++ 2일차
-
-[https://isocpp.org/blog/2022/06/results-summary-2022-annual-cpp-developer-survey-lite](https://isocpp.org/blog/2022/06/results-summary-2022-annual-cpp-developer-survey-lite)
+https://isocpp.org/blog/2022/06/results-summary-2022-annual-cpp-developer-survey-lite
 
 C++ 버전 중에서 C++ 14 버전 가장 많이 사용함
 
-### namespace
+**namespace**
 
 같은 이름의 함수여도 여러 군데에 붙을수 있게 해둠
 
@@ -43,6 +41,8 @@ BBQ
 KFC
 HOME
 ```
+
+**Q1:**
 
 input함수에서 숫자 1개를 입력받아주세요
 
@@ -92,7 +92,7 @@ int main() {
 }
 ```
 
-Q1
+**std::string 예제**
 
 ```cpp
 #include<iostream>
@@ -105,25 +105,21 @@ int main() {
 	string::size_type npos = -1;
 	cout << a << ' ' << a.size() << endl;
 	int wStart, wEnd;
-	wStart = a.find_first_not_of(" \n", 0); 
-// ‘공백‘과 ‘\n’ 이 아닌 문자를 찾는다. ( 개행 )
+	wStart = a.find_first_not_of(" \\n", 0); 
+// ‘공백‘과 ‘\\n’ 이 아닌 문자를 찾는다. ( 개행 )
 	while (wStart < npos) {
-		wEnd = a.find_first_of(" \n", wStart); 
+		wEnd = a.find_first_of(" \\n", wStart); 
 //현재 단어의 끝으로 설정
 		string subsub = a.substr(wStart, wEnd - wStart); 
 //사이 문자열 추출
 		cout << subsub << ' ' << subsub.size() << endl;
-		wStart = a.find_first_not_of(" \n", wEnd); 
+		wStart = a.find_first_not_of(" \\n", wEnd); 
 //wStart를 다음 단어의 시작으로 설정
 	}
 	return 0;
 }
-```
-
-```cpp
 #include <iostream>
 #include <string>
-
 using namespace std;
 
 int main() {
@@ -155,9 +151,7 @@ int main() {
 }
 ```
 
-## reference
-
-참조
+**reference( 참조 )**
 
 reference는 한번 생성되면 다른 객체를 참조할수 없다
 
@@ -187,4 +181,28 @@ int main() {
 30 20 30
 ```
 
-### auto, typeid
+**auto, typeid**
+
+```cpp
+#include <iostream>
+
+using namespace std;
+
+int main() {
+	auto a = 10;
+	auto b = 3.14;
+	auto c = 'a';
+	auto s = "3434";
+
+	cout << typeid(a).name() << endl;
+	cout << typeid(b).name() << endl;
+	cout << typeid(c).name() << endl;
+	cout << typeid(s).name() << endl;
+}
+
+출력
+int
+double
+char
+char const *
+```

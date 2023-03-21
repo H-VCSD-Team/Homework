@@ -50,7 +50,7 @@ Git은 터미널로 명령어를 통해 동작하는데 이는 복잡하므로 S
 
 1. Permission to H-VCSD-Team/Homework.git denied to “xxx “.
 토큰 키를 깃허브 repository 주소 입력하는곳 앞에 넣으면 됨
-https://토큰키@깃허브 repository 주소 → 이렇게 하면 된다
+**https://토큰키@깃허브 repository 주소** → 이렇게 하면 된다
 ********
 
 [[Github] 소스트리(sourcetree) 깃허브 토큰 연동 방법](https://ssimplay.tistory.com/787)

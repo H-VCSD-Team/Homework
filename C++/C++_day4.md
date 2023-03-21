@@ -1,14 +1,11 @@
-# C++ 4일차
-
 ## OOP의 끝판왕은 “**다형성**”
 
-연관 association-”has a 관계”
+**class 사이의 관계**
 
-집합 aggregation-”has a 관계”
-
-구성 composition-”has a 관계”
-
-의존 dependency-”use a 관계”
+- 연관 association -”has a 관계”
+- 집합 aggregation -”has a 관계”
+- 구성 composition -”has a 관계”
+- 의존 dependency -”use a 관계”
 
 class간의 의존성을 낮춰서 유지 보수를 쉽게 하자
 
@@ -20,12 +17,13 @@ dependency → use a 관계
 
 ## Association 연관
 
+**의미**
+
 서로 소유의 개념이 아님
 
 person과 coffee는 cafe class를 통해 연결되어 있다
-커피를 시키는 사람이 어떤걸 마시는지
 
-코드 짜임새만 보고 넘어가면 돌듯
+밑에 코드에서 커피를 시키는 사람이 어떤걸 마시는지 연결되어 있음
 
 ```cpp
 #include <string>
@@ -87,6 +85,8 @@ JIWOO ordered a Americano coffee
 
 ## Aggregation 소유(집합)
 
+**의미**
+
 한 객체가 다른 객체를 소유하지만, 서로 독립적임
 
 학교는 학생을 가지고 있지만, 학생이 없어져도 학교가 없어지지는 않는다(서로 독립적)
@@ -135,13 +135,13 @@ int main() {
     school->print_student();
     return 0;
 }
-
 ```
 
 ## Composition 구성
 
-자동차와 엔진의 관계처럼 내용물 클래스가 컨테이너 클래스에 포함되어 있다 
-컨테이너 클래스가 소멸되면 내용물 클래스도 소멸된다 
+**의미**
+
+자동차와 엔진의 관계처럼 내용물 클래스가 컨테이너 클래스에 포함되어 있다 컨테이너 클래스가 소멸되면 내용물 클래스도 소멸된다
 
 Car class에 Engine class가 포함되어 있음
 
@@ -193,6 +193,8 @@ Where is Engine?
 
 ## Dependency 의존
 
+**의미**
+
 객체가 다른 객체를 사용하는것
 
 의존된 객체의 기능이 수정될 경우, 의존하는 객체는 손상될 수 있다.
@@ -226,9 +228,7 @@ int main() {
 }
 ```
 
-추상클래스 / 인터페이스
-
-다형성
+**다형성**
 
 **하나의 코드가 다양한 타입의 객체에 대해 작동할 수 있는 능력**
 
@@ -277,7 +277,7 @@ int main() {
 
 한 포인터로 다양한 객체를 사용할수있음
 
-but Sub의 함수 사용 불가능! → **가상함수 (virtual)** 로 해결 가능!
+그러나 Sub class의 Super함수 사용 불가능! → **가상함수 (virtual)** 로 해결 가능!
 
 ```cpp
 #include <iostream>
@@ -314,6 +314,10 @@ int main() {
 슈퍼
 서브
 ```
+
+# 객체지향 특징
+
+------
 
 ## Upcast/Downcast
 
@@ -353,13 +357,13 @@ UpCast : 더 큰 클래스인 자식 클래스(Sub)를 생성하고 부모 클�
 
 DownCast : Upcast된 포인터를 다시 자식 클래스 포인터 자료형으로 변경함
 
-## Coupling
+**Coupling**
 
 클래스 간 상호 의존성의 정도
 
 Coupling 덜할수록 좋다
 
-## OCP ( Open-Closed Principle)
+**OCP ( Open-Closed Principle)**
 
 새로운 기능 추가는 쉽고, 기존 내용 변경은 어렵게 하는 방식
 
@@ -367,7 +371,9 @@ Coupling 덜할수록 좋다
 
 coupling 낮추고 확장성 높임
 
-## 다형성(Polymorphism)
+**다형성(Polymorphism)**
+
+함수나 변수 선언 등이 다양한 자료형에 대하여 호환적임
 
 ```cpp
 #include <iostream>
@@ -419,17 +425,59 @@ int main() {
 
 printArea 함수 매개변수의 자료형은 Shape로 부모 클래스 이지만 Circle,Rectangle 클래스도 Upcasting해서 input으로 들어올수 있다
 
-## 추상 클래스
+# 가상함수, 추상 클래스, 인터페이스
 
-순수 가상함수를 한개 이상 포함한 클래스
+**가상함수**
 
-객체를 직접 생성할수 없다
+- 상속하는 클래스 내에서 같은 시그니처의 함수로 오버라이딩 될 수 있는 함수 또는 메소드
 
-상속받은 class에서 순수가상함수 구현해야 한다.
+- 객체 지향 프로그래밍 (OOP)의 다형성에서 중요한 부분
 
-상속을 통한 함수의 구현을 강제한다
+  ```cpp
+  #include <iostream>
+  #include <string>
+  using namespace std;
+  
+  class Super {
+  public:
+      //가상함수
+      virtual void print() {
+          cout << "슈퍼" << endl;
+      }
+  };
+  
+  class Sub : public Super {
+  public:
+      virtual void print() {     **//상속받은 함수는 안붙여도 되는데 가독성을 위해 붙여둠**
+          cout << "서브" << endl;
+      }
+  
+  };
+  
+  int main() {
+      
+      Super* s = new Super();
+      s->print();
+      delete s;
+  
+      s = new Sub;
+      s->print();
+      return 0;
+  }
+  
+  출력결과
+  슈퍼
+  서브
+  ```
 
-## 순수 가상 함수
+**추상 클래스**
+
+- 순수 가상함수를 한개 이상 포함한 클래스
+- 객체를 직접 생성할수 없다
+- 상속받은 class에서 순수가상함수 구현해야 한다
+- 상속을 통한 함수의 구현을 강제한다
+
+**순수 가상 함수**
 
 가상함수를 0으로 때려넣음
 
@@ -458,11 +506,11 @@ int main(){
 }
 ```
 
-## 인터페이스(interface)
+**인터페이스(interface)**
 
 멤버함수가 모두 순수 가상함수만으로 존재함
 
-클래스 이름 앞에 I를 붙이는게 관습적
+java에는 interface기능이 따로 있지만 C++는 따로 없어서 클래스 이름 앞에 I를 붙이는게 관습적
 
 ```cpp
 #include <iostream>
@@ -492,9 +540,11 @@ int main() {
 }
 ```
 
-## 구체 클래스(Concrete class)
+**구체 클래스(Concrete class)**
 
 인스턴스를 생성할 수 있는 class
+
+추상 클래스의 반대 개념으로 봐도 됨
 
 ```cpp
 #include <iostream>
@@ -532,7 +582,7 @@ int main() {
 }
 ```
 
-## 분할 컴파일
+**분할 컴파일**
 
 .cpp파일 컴파일 후 배포하면 됨—> 캡슐화 원칙
 
@@ -553,9 +603,6 @@ public:
 };
 
 #endif
-```
-
-```cpp
 HYPEBOY.cpp
 
 #include "HYPEBOY.h"
@@ -564,9 +611,6 @@ HYPEBOY.cpp
 void HYPEBOY::print() {
 	cout << "하이 뉴진스" << endl;
 }
-```
-
-```cpp
 main.cpp
 
 #include "HYPEBOY.h"
@@ -578,155 +622,243 @@ int main() {
 }
 ```
 
-## 연산자 오버로드
+# **연산자 오버로드**
 
-클래스 멤버함수 or 일반 비 멤버함수 두가지 방식으로 정의 가능
+**목적**
+
+- 사용자 정의 타입을 만들고 계산하고 출력하기 위하여 사용
+- 클래스 멤버함수 or 일반 비 멤버함수 두가지 방식으로 정의 가능
 
 1. **클래스 멤버함수 정의 방식**
 
-```cpp
-#include<iostream>
-using namespace std;
+   ```cpp
+   #include<iostream>
+   using namespace std;
+   
+   class Complex {
+   private:
+       double real;
+       double imag;
+   public:
+       Complex(double r, double i) : real(r), imag(i) {}
+   
+       Complex operator+(const Complex& rhs) const { //멤버함수로 구현
+           return Complex(real + rhs.real, imag + rhs.imag);
+       }   //a에다가 b의 값을 복사해서 덧셈을 한 뒤 그 결과를 새로운 complex 객체로 만들어서 return
+   
+       void print() {
+           cout << real << " + " << imag << "j" << endl;
+       }
+   };
+   
+   int main() {
+       Complex a(1.0, 2.0);
+       Complex b(3.0, 4.0);
+       Complex c = a + b;    //a+b의 결과가 Complex type
+       c.print();
+       return 0;
+   }
+   
+   출력
+   4 + 6j
+   ```
 
-class Complex {
-private:
-    double real;
-    double imag;
-public:
-    Complex(double r, double i) : real(r), imag(i) {}
+2. **비멤버함수 정의 방식**
 
-    Complex operator+(const Complex& rhs) const { //멤버함수로 구현
-        return Complex(real + rhs.real, imag + rhs.imag);
-    }   //a에다가 b의 값을 복사해서 덧셈을 한 뒤 그 결과를 새로운 complex 객체로 만들어서 return
+   class멤버에 접근 불가→
 
-    void print() {
-        cout << real << " + " << imag << "j" << endl;
-    }
-};
+   1. friend 붙여서 선언, 멤버의 값을 가져올 수 있도록 getter 함수 구현
+   2. 객체 2개를 복사해서 매개변수로 받아와 각각의 객체의 값을 getter로 읽어와서 덧셈을 한 뒤 덧셈 값을 가진 새로운 complex 객체 생성해서 return
 
-int main() {
-    Complex a(1.0, 2.0);
-    Complex b(3.0, 4.0);
-    Complex c = a + b;    //a+b의 결과가 Complex type
-    c.print();
-    return 0;
-}
+   ```cpp
+   #include<iostream>
+   using namespace std;
+   
+   class Complex {
+   private:
+       double real;
+       double imag;
+   public:
+       Complex(double r, double i) : real(r), imag(i) {}
+       double getReal() const {
+           return real;
+       }
+       double getImag() const {
+           return imag;
+       }
+       friend Complex operator+(const Complex& lhs, const Complex& rhs);
+   };
+   
+   Complex operator+(const Complex& lhs, const Complex& rhs) { //비멤버함수로 재정의
+       return Complex(lhs.getReal() + rhs.getReal(), lhs.getImag() + rhs.getImag());
+   }
+   
+   int main() {
+       Complex a(1.0, 2.0);
+       Complex b(3.0, 4.0);
+       Complex c = a + b;
+       cout << c.getReal() << ' ' << c.getImag() << endl;
+       return 0;
+   }
+   ```
 
-출력
-4 + 6j
-```
+# 오버로딩 종류
 
-1. **비멤버함수 정의 방식**
+1. **단항 연산자 오버로딩**
 
-class멤버에 접근 불가→
+   ```cpp
+   #include <iostream>
+   using namespace std;
+   class Fraction {
+   public:
+       int numerator;
+       int denominator;
+       Fraction(int num, int den) : numerator(num), denominator(den) {}
+   
+       // 단항 연산자 - 오버로딩 함수
+       Fraction operator-() const {
+           return Fraction(-numerator, denominator);
+       }
+   
+       // 단항 연산자 + 오버로딩 함수
+       Fraction operator+() const {
+           return Fraction(+numerator, denominator);
+       }
+   
+       void print() const {
+           cout << numerator << "/" << denominator << endl;
+       }
+   };
+   
+   int main() {
+       Fraction f1(3, 4);
+       Fraction f2 = -f1;  // 단항 연산자 오버로딩 호출
+       Fraction f3 = -f2;  // 단항 연산자 오버로딩 호출
+       f1.print();  // 3/4 출력
+       f2.print();  // -3/4 출력
+       f3.print(); // 3/4 출력
+       return 0;
+   }
+   ```
 
-1) friend 붙여서 선언, 멤버의 값을 가져올 수 있도록 getter 함수 구현
+2. **전위증감 연산자 오버로딩**
 
-2) 객체 2개를 복사해서 매개변수로 받아와 각각의 객체의 값을 getter로 읽어와서 덧셈을 한 뒤 덧셈 값을 가진 새로운 complex 객체 생성해서 return
+   ```cpp
+   #include <iostream>
+   using namespace std;
+   class Counter {
+   private:
+       int count;
+   public:
+       Counter() : count(0) {}
+       int getCount() const { return count; }
+       // 전위 증가 연산자 오버로딩
+       Counter& operator++() {
+           count++;
+           return *this;
+       }
+       // 전위 감소 연산자 오버로딩
+       Counter& operator--() {
+           count--;
+           return *this;
+       }
+   };
+   int main() {
+       Counter c1;
+       cout << "Count: " << c1.getCount() << endl;
+       ++c1;
+       cout << "Count: " << c1.getCount() << endl;
+       --c1;
+       cout << "Count: " << c1.getCount() << endl;
+       return 0;
+   }
+   ```
 
-```cpp
-#include<iostream>
-using namespace std;
+3. **<<연산자 오버로딩**
 
-class Complex {
-private:
-    double real;
-    double imag;
-public:
-    Complex(double r, double i) : real(r), imag(i) {}
-    double getReal() const {
-        return real;
-    }
-    double getImag() const {
-        return imag;
-    }
-    friend Complex operator+(const Complex& lhs, const Complex& rhs);
-};
+   ```cpp
+   #include <iostream>
+   using namespace std;
+   
+   class Point {
+   private:
+       int x;
+       int y;
+   public:
+       Point(int x, int y) : x(x), y(y) {}
+       int getX() const { return x; }
+       int getY() const { return y; }
+       friend 
+   };
+   
+   ostream& operator <<(ostream& os, const Point& p) {
+       os << "(" << p.getX() << ", " << p.getY() << ")";
+       return os;
+   }
+   
+   int main() {
+       Point p{ 1, 2 };     //-> uniform 초기화
+       cout << p << endl; // (1, 2)
+       return 0;
+   }
+   ```
 
-Complex operator+(const Complex& lhs, const Complex& rhs) { //비멤버함수로 재정의
-    return Complex(lhs.getReal() + rhs.getReal(), lhs.getImag() + rhs.getImag());
-}
+   getX,getY는 비멤버함수인 operator <<에 멤버변수 x, y를 접근할수 있도록 하는 함수
 
-int main() {
-    Complex a(1.0, 2.0);
-    Complex b(3.0, 4.0);
-    Complex c = a + b;
-    cout << c.getReal() << ' ' << c.getImag() << endl;
-    return 0;
-}
-```
+   →그래서 friend 안써도 된다
 
-## 단항 연산자 오버로딩
+   p{1,2} 는 uniform 초기화
 
-```cpp
-#include <iostream>
-using namespace std;
-class Fraction {
-public:
-    int numerator;
-    int denominator;
-    Fraction(int num, int den) : numerator(num), denominator(den) {}
+4. **대입연산자 오버로딩**
 
-    // 단항 연산자 - 오버로딩 함수
-    Fraction operator-() const {
-        return Fraction(-numerator, denominator);
-    }
+   `a = b`는 `a.operator=(b)`로 간주할수 있다.
 
-    // 단항 연산자 + 오버로딩 함수
-    Fraction operator+() const {
-        return Fraction(+numerator, denominator);
-    }
+   ```cpp
+   #include <iostream>
+   using namespace std;
+   class MyInt {
+   private:
+       int num;
+   public:
+       MyInt(int num) : num(num) {}
+       MyInt& operator=(const MyInt& other) {
+           num = other.num;
+           return *this;     //-> 자기 대입!!!
+       }
+       int getNum() const { return num; }
+   };
+   int main() {
+       MyInt a(5);
+       MyInt b(10);
+       cout << "a: " << a.getNum() << endl;
+       cout << "b: " << b.getNum() << endl;
+       b = a;
+       cout << "a: " << a.getNum() << endl;
+       cout << "b: " << b.getNum() << endl;
+       return 0;
+   }
+   ```
 
-    void print() const {
-        cout << numerator << "/" << denominator << endl;
-    }
-};
+   또한, 연산자 반환은 참조로 하는 것을 확인할 수 있다. 이는 다음과 같이 `operator chaining`을 허용하기 위함이다.
 
-int main() {
-    Fraction f1(3, 4);
-    Fraction f2 = -f1;  // 단항 연산자 오버로딩 호출
-    Fraction f3 = -f2;  // 단항 연산자 오버로딩 호출
-    f1.print();  // 3/4 출력
-    f2.print();  // -3/4 출력
-    f3.print(); // 3/4 출력
-    return 0;
-}
-```
+   ```cpp
+   int a, b, c, d, e;
+   a = b = c = d = e = 42;
+   ```
 
-## 전위증감 연산자 오버롣딩
+   ```cpp
+   a = (b = (c = (d = (e = 42))));
+   ```
 
-```cpp
-#include <iostream>
-using namespace std;
-class Counter {
-private:
-    int count;
-public:
-    Counter() : count(0) {}
-    int getCount() const { return count; }
-    // 전위 증가 연산자 오버로딩
-    Counter& operator++() {
-        count++;
-        return *this;
-    }
-    // 전위 감소 연산자 오버로딩
-    Counter& operator--() {
-        count--;
-        return *this;
-    }
-};
-int main() {
-    Counter c1;
-    cout << "Count: " << c1.getCount() << endl;
-    ++c1;
-    cout << "Count: " << c1.getCount() << endl;
-    --c1;
-    cout << "Count: " << c1.getCount() << endl;
-    return 0;
-}
-```
+   다르게 말해서, 대입(할당)은 우측결합이다. 마지막 대입(오른쪽) 연산을 먼저 계산하고, 좌측으로 연산하며 값이 전달되는 방식이다.
 
-## const 위치
+   1. **→, \* 연산자 오버로딩**
+
+5. 사이트…
+
+   [[문과 코린이의 IT 기록장\] C,C++ - 연산자 오버로딩 7 : 포인터 연산자 오버로딩(포인터 연산자 오버로딩, 스마트 포인터 (Smart Pointer), ( )연산자의 오버로딩과 펑터(Functor), 임시객체로의 자동 형 ..](https://vansoft1215.tistory.com/42)
+
+**const 위치**
 
 함수 이름 뒤 : 함수 내에서 수정 불가
 
@@ -734,9 +866,9 @@ int main() {
 
 함수 앞 : return값 불변
 
-## 상수 객체
+**상수 객체**
 
-- 클래스 멤버변수 수정 불가능
+1. 클래스 멤버변수 수정 불가능
 
 ```cpp
 #include<iostream>
@@ -766,7 +898,7 @@ int main() {
 }
 ```
 
-- 오버로딩 할때 상수객체와 비상수객체 각각 따로따로 오버로딩 해야한다
+2. 오버로딩 할때 상수객체와 비상수객체 각각 따로따로 오버로딩 해야한다
 
 ```cpp
 #include <iostream>
@@ -804,38 +936,3 @@ int main() {
     return 0;
 }
 ```
-
-## <<연산자 오버로딩
-
-```cpp
-#include <iostream>
-using namespace std;
-
-class Point {
-private:
-    int x;
-    int y;
-public:
-    Point(int x, int y) : x(x), y(y) {}
-    int getX() const { return x; }
-    int getY() const { return y; }
-    friend 
-};
-
-ostream& operator <<(ostream& os, const Point& p) {
-    os << "(" << p.getX() << ", " << p.getY() << ")";
-    return os;
-}
-
-int main() {
-    Point p{ 1, 2 };     //-> uniform 초기화
-    cout << p << endl; // (1, 2)
-    return 0;
-}
-```
-
-getX,getY는 비멤버함수인 operator <<에 멤버변수 x,y를 접근할수 있도록 하는 함수
-
-→그래서 friend 안써도 된다\
-
-p{1,2} 는 uniform 초기화

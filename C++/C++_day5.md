@@ -1,147 +1,21 @@
-# C++ 5일차
-
-## C++지향하는것
+# C++지향점
 
 **원하는 type 만들어서 기존의 type(자료형) 처럼 써라!!!**
 
 **금지된 사항 : C++ 표준은 수정 불가**
 
-## 연산자 오버로딩
-
-→ 사용자 정의 타입을 만들고 계산하고 출력하자
-
-객체의 복사: 얕은복사 깊은복사 일어난다
-
-## 예외처리
-
-STL
-
-데이터를 저장하는 통과 접근/출력하는 방법
-
-## 대입연산자
-
-`a = b`는 `a.operator=(b)`로 간주할수 있다.
-
-```cpp
-#include <iostream>
-using namespace std;
-class MyInt {
-private:
-    int num;
-public:
-    MyInt(int num) : num(num) {}
-    MyInt& operator=(const MyInt& other) {
-        num = other.num;
-        return *this;     //-> 자기 대입!!!
-    }
-    int getNum() const { return num; }
-};
-int main() {
-    MyInt a(5);
-    MyInt b(10);
-    cout << "a: " << a.getNum() << endl;
-    cout << "b: " << b.getNum() << endl;
-    b = a;
-    cout << "a: " << a.getNum() << endl;
-    cout << "b: " << b.getNum() << endl;
-    return 0;
-}
-```
-
-또한, 연산자 반환은 참조로 하는 것을 확인할 수 있다. 이는 다음과 같이 `operator chaining`을 허용하기 위함이다.
-
-```cpp
-int a, b, c, d, e;
-a = b = c = d = e = 42;
-```
-
-```cpp
-a = (b = (c = (d = (e = 42))));
-```
-
-다르게 말해서, 대입(할당)은 우측결합이다. 마지막 대입(오른쪽) 연산을 먼저 계산하고, 좌측으로 연산하며 값이 전달되는 방식이다.
-
-## 연산자 정의
-
-## 멤버함수로 정의
-
-```cpp
-#include<iostream>
-using namespace std;
-class Complex {
-private:
-    double real;
-    double imag;
-public:
-
-    Complex(double r, double i) : real(r), imag(i) {}
-
-    Complex operator+(const Complex& rhs) const { //멤버함수로 구현
-        return Complex(real + rhs.real, imag + rhs.imag);
-    }   //return 결과가 Complex의 객체
-
-    void print() {
-        cout << real << ' ' << imag << endl;
-    }
-
-};
-int main() {
-    Complex a(1.0, 2.0);
-    Complex b(3.0, 4.0);
-    Complex c = a + b;
-    c.print();
-    return 0;
-}
-```
-
-## 비멤버함수로 정의
-
-```cpp
-#include<iostream>
-using namespace std;
-class Complex {
-private:
-    double real;
-    double imag;
-public:
-    Complex(double r, double i) : real(r), imag(i) {}
-    double getReal() const {
-        return real;
-    }
-
-    double getImag() const {
-        return imag;
-    }
-
-    friend Complex operator+(const Complex& lhs, const Complex& rhs);
-};
-
-Complex operator+(const Complex& lhs, const Complex& rhs) { //비멤버함수로 재정의
-    return Complex(lhs.getReal() + rhs.getReal(), lhs.getImag() + rhs.getImag());
-}
-
-int main() {
-    Complex a(1.0, 2.0);
-    Complex b(3.0, 4.0);
-    Complex c = a + b;
-    cout << c.getReal() << ' ' << c.getImag() << endl;
-    return 0;
-}
-```
-
 ## C++ 교재 추천
 
 [싸니까 믿으니까 인터파크도서](https://book.interpark.com/product/BookDisplay.do?_method=detail&sc.saNo=001&sc.prdNo=342941581&product2020=true)
 
-## →, * 연산자 오버로딩
+## ※ Smart Pointer
 
-[[문과 코린이의 IT 기록장] C,C++ - 연산자 오버로딩 7 : 포인터 연산자 오버로딩(포인터 연산자 오버로딩, 스마트 포인터 (Smart Pointer), ( )연산자의 오버로딩과 펑터(Functor), 임시객체로의 자동 형 ..](https://vansoft1215.tistory.com/42)
-
-## ※ Smart Pointer 구현
+**구현**
 
 객체를 heap 에 생성했을때
 
- 객체를 삭제하는게 가장 중요!!!  → 객체의 포인터를 멤버변수로 가지고 있어서 heap 메모리가 자동으로 삭제되는 SmartPointer를 이용하자!!!!!!
+객체를 삭제하는게 가장 중요!!!
+ → 객체의 포인터를 멤버변수로 가지고 있어서 heap 메모리가 자동으로 삭제되는 SmartPointer를 이용하자!!!!!!
 
 ```cpp
 #include <iostream>
@@ -185,7 +59,7 @@ int main() {
 
 **num->ShowData() = (num.operator->()) ShowData();**
 
-## Smart pointer & 참조 계수
+**Smart pointer & 참조 계수**
 
 ```cpp
 #include <iostream>
@@ -246,9 +120,11 @@ int main() {
 }
 ```
 
-## 함수객체(functor)
+# 함수객체(functor)
 
-() 괄호 연산자를 operator overloading 하여 
+**의미**
+
+() 괄호 연산자를 operator overloading 하여
 
 함수와 다르게 상태를 계속해서 유지 가능
 
@@ -275,148 +151,112 @@ int main() {
 
 상태가 계속 유지된채로(sum 값이 남아있고) sum 괄호에있는 값이 더해진다
 
-## << 오버로딩
+## 객체의 복사
 
-```cpp
-#include <iostream>
-using namespace std;
+1. **얕은복사** : 객체의 주소만 그대로 복사
 
-class Point {
-private:
-    int x;
-    int y;
-public:
-    Point(int x, int y) : x(x), y(y) {}
-    int getX() const { return x; }
-    int getY() const { return y; }
-    //friend 사용 안해도 getX,getY함수 이용해서 출력 가능
-    //friend ostream& operator<<(ostream& os, const Point& p);
-};
+   ```cpp
+   #include<iostream>
+   using namespace std;
+   
+   class Person {
+   private:
+   	int* age;
+   public:
+   	Person(int n) {
+   		age = new int;
+   		*age = n;
+   	}
+   	~Person() {	}
+   	void setAge(int n) {
+   		age = new int;
+   		*age = n;
+   	}
+   	void getAge() {
+   		cout << *age << endl;
+   	}
+   };
+   
+   int main() {
+   	Person* a = new Person(10);		//복사생성자 호출
+   	a->getAge();					//10 출력
+   
+   	Person* b;
+   	b = a;
+   	b->getAge();				//10출력
+   	b->setAge(100);
+   	a->getAge();	//a 객체의 멤버 변수 값도 영향을 받음
+   	b->getAge();
+   	//문제점 -> 복사를 했는데 메모리가 공유되고 있음!!!
+   	return 0;
+   }
+   ```
 
-ostream& operator<<(ostream& os, const Point& p) {
-    os << "(" << p.getX() << ", " << p.getY() << ")";
-    //friend 사용할때 밑에 방법으로도 가능
-    //os << "(" << p.x << ", " << p.getY() << ")";         
+   얕은복사 문제점: **멤버변수가 동적할당된 포인터일때 포인터 주소 자체가 복사되는 현상 발생**
 
-    return os;
-}
+   -> 복사를 했는데 heap 메모리가 공유되고 있음!!!
 
-int main() {
-    Point p{ 1, 2 };     //-> uniform 초기화
-    cout << p << endl; // (1, 2)
-    return 0;
-}
-```
+2. **깊은복사** : 실제 객체를 새로 생성하여 복사( 새로운 메모리 공간을 가진다)
 
-## 복사
-
-1. 얕은복사 : 객체의 주소만 그대로 복사
-
-```cpp
-#include<iostream>
-using namespace std;
-
-class Person {
-private:
-	int* age;
-public:
-	Person(int n) {
-		age = new int;
-		*age = n;
-	}
-	~Person() {	}
-	void setAge(int n) {
-		age = new int;
-		*age = n;
-	}
-	void getAge() {
-		cout << *age << endl;
-	}
-};
-
-int main() {
-	Person* a = new Person(10);		//복사생성자 호출
-	a->getAge();					//10 출력
-
-	Person* b;
-	b = a;
-	b->getAge();				//10출력
-	b->setAge(100);
-	a->getAge();	//a 객체의 멤버 변수 값도 영향을 받음
-	b->getAge();
-	//문제점 -> 복사를 했는데 메모리가 공유되고 있음!!!
-	return 0;
-}
-```
-
-얕은복사 문제점: **멤버변수가 동적할당된 포인터일때 포인터 주소 자체가 복사되는 현상 발생**
-
--> 복사를 했는데 heap 메모리가 공유되고 있음!!!
-
-1. 깊은복사 : 실제 객체를 새로 생성하여 복사( 새로운 메모리 공간을 가진다)
-
-```cpp
-#include <iostream>
-using namespace std;
-class Person {
-private:
-    int* age;
-public:
-    Person(int n) {
-        age = new int;
-        *age = n;
-    }
-    // 깊은 복사 생성자
-    Person(const Person& other) {
-        age = new int;
-        *age = *other.age;
-    }
-    // 깊은 복사가 일어나도록 대입 연산자 오버로딩(C++ 에서 기본적으로 제공함)
-    Person& operator=(const Person& other) {
-        if (this == &other) return *this;  // 자기 자신과의 대입 처리
-        delete age;
-        age = new int;
-        *age = *other.age;
-        return *this;
-    }
-    ~Person() {
-        delete age;     //메모리 누수 방지
-    }
-    void setAge(int n) {
-        *age = n;
-    }
-    void getAge() {
-        cout << *age << endl;
-    }
-};
-int main() {
-    Person* a = new Person(10);
-    a->getAge();
-    Person* b = new Person(*a);  // 깊은 복사 생성자 호출
-    b->getAge();        //10
-    b->setAge(100);     //100
-    a->getAge();        //10  // a 객체의 멤버 변수 값은 변경되지 않음
-    b->getAge();        //100
-    *a = *b;            // 깊은 복사 대입 연산자 호출
-    a->getAge();        //100
-    b->getAge();        //100
-    delete a;
-    delete b;
-    return 0;
-}
-```
+   ```cpp
+   #include <iostream>
+   using namespace std;
+   class Person {
+   private:
+       int* age;
+   public:
+       Person(int n) {
+           age = new int;
+           *age = n;
+       }
+       // 깊은 복사 생성자
+       Person(const Person& other) {
+           age = new int;
+           *age = *other.age;
+       }
+       // 깊은 복사가 일어나도록 대입 연산자 오버로딩(C++ 에서 기본적으로 제공함)
+       Person& operator=(const Person& other) {
+           if (this == &other) return *this;  // 자기 자신과의 대입 처리
+           delete age;
+           age = new int;
+           *age = *other.age;
+           return *this;
+       }
+       ~Person() {
+           delete age;     //메모리 누수 방지
+       }
+       void setAge(int n) {
+           *age = n;
+       }
+       void getAge() {
+           cout << *age << endl;
+       }
+   };
+   int main() {
+       Person* a = new Person(10);
+       a->getAge();
+       Person* b = new Person(*a);  // 깊은 복사 생성자 호출
+       b->getAge();        //10
+       b->setAge(100);     //100
+       a->getAge();        //10  // a 객체의 멤버 변수 값은 변경되지 않음
+       b->getAge();        //100
+       *a = *b;            // 깊은 복사 대입 연산자 호출
+       a->getAge();        //100
+       b->getAge();        //100
+       delete a;
+       delete b;
+       return 0;
+   }
+   ```
 
 ## 참조 계수
 
-객체를 함수에 넣거나 return 하면 객체 복사 되더라→ 메모리 공유됨
+**의미**
 
-참조계수 메모리를 공유→ 이 메모리를 따간 객체가 몇개인지 센다
-
-→ 메모리 누수 방지!!!
-
-메모리 누수 방지를 위해 smart pointer와 참조계수가 같이 사용된다
-
-heap에 생성된 객체가 복사될 때마다 카운팅
+- 객체를 함수에 넣거나 return 하면 객체 복사 되더라→ 메모리 공유됨
+- 참조계수 메모리를 공유→ 이 메모리를 따간 객체가 몇개인지 센다→ 메모리 누수 방지됨!!!
+- 메모리 누수 방지를 위해 smart pointer와 참조계수가 같이 사용된다
+- heap에 생성된 객체가 복사될 때마다 카운팅
 
 ```cpp
 #include <iostream>
@@ -478,14 +318,11 @@ int main() {
 }
 ```
 
-‘
-
 ## 예외처리될대 stack 해제 되지 않을때
 
 class에서 예외 발생 처리
 
-- 생성자에서 예외처리 발생할때
-메모리 정리되도록 함
+- 생성자에서 예외처리 발생할때 메모리 정리되도록 함
 - 소멸자에서 예외처리 발생할때
 
 ```cpp
@@ -556,24 +393,25 @@ int main() {
 
 # STL
 
-## std::vector
+### 1. std::vector
 
 vector의 크기가 바뀌면 새롭게 메모리가 할당된다
 
-push_back() VS insert() 차이점
+**push_back() VS insert() 차이점**
 
 push_back : 중간에 요소 삽입해도 비용높지않다
 
 insert : 중간에 요소 삽입할 경우 비용이 높다
 
-iterator
+**iterator**
 
 컨테이너에 있는 원소들에 접근할때 사용함
 
 포인터처럼 사용함
 
-```cpp
+**예제**
 
+```cpp
 #include <iostream>
 #include <vector>
 
@@ -596,7 +434,9 @@ int main() {
 }
 ```
 
-## std::deque
+### 2. std::deque
+
+**특징**
 
 vector와 유사하지만, 앞에도 추가 가능함!
 
@@ -619,7 +459,9 @@ int main() {
 }
 ```
 
-## std::list
+### std::list
+
+**코드**
 
 ```cpp
 #include <iostream>
@@ -642,12 +484,11 @@ int main() {
 }
 ```
 
-장점: 어떠한 위치에도 데이터 삽입/삭제 가능
-메모리 상에 연속적으로 배치되지 않음
+장점: 어떠한 위치에도 데이터 삽입/삭제 가능 메모리 상에 연속적으로 배치되지 않음
 
-단점:
+단점: 속도
 
-## std::set
+### std::set
 
 **중복 허용하지 않는** 원소들의 집합, key만 저장
 
@@ -668,7 +509,7 @@ int main() {
 }
 ```
 
-## std::map
+### std::map
 
 key-value 쌍을 저장하는 자료 구조(**중복 허용 x**)
 
@@ -698,7 +539,7 @@ int main() {
 7 C
 ```
 
-## std::stack
+### std::stack
 
 LIFO( Last Input First Output ) → 나중에 들어간 것이 먼저 나온다.
 
@@ -732,7 +573,7 @@ int main() {
 0
 ```
 
-## std::queue
+### std::queue
 
 ```cpp
 #include<iostream>
@@ -755,7 +596,7 @@ int main() {
 }
 ```
 
-## std::priority queue
+### std::priority queue
 
 ```cpp
 #include<iostream>
@@ -791,7 +632,7 @@ int main() {
 
 완전 이진트리 구조( 이분법 ) → 공부하기
 
-## std::remove
+### std::remove
 
 ```cpp
 #include<iostream>
@@ -824,7 +665,7 @@ int main() {
 5
 ```
 
-## std::sort
+### std::sort
 
 ```cpp
 #include<iostream>
@@ -845,14 +686,14 @@ int main() {
 
 	sort(b.begin(), b.end());		//sort를 오름차순으로 변경
 
-	cout << "\nsort 오름차순" << endl;
+	cout << "\\nsort 오름차순" << endl;
 	for (auto i : b)
 		cout << i << " ";
 	cout << endl;
 
 	sort(b.begin(), b.end(), greater<int>());		//sort를 내림차순으로 변경(<functional>)
 
-	cout << "\nsort 내림차순" << endl;
+	cout << "\\nsort 내림차순" << endl;
 	for (auto i : b)
 		cout << i << " ";
 	cout << endl;
@@ -870,7 +711,7 @@ sort 내림차순
 40 30 20 10
 ```
 
-## std::count, find
+### std::count, find
 
 ```cpp
 #include<iostream>
@@ -900,4 +741,42 @@ int main() {
 2
 ```
 
-## lower_bound, upper_bound, binary_search
+# lower_bound, upper_bound, binary_search
+
+**의미**
+
+자료형에서 사용자가 원하는 방식으로 데이터 처리하거나 추출함
+
+**코드**
+
+```cpp
+#include<iostream>
+#include<algorithm>
+#include <functional>
+#include <vector>
+using namespace std;
+
+int main() {
+
+	vector<int> b = { 4,3,2,1,10,50};
+	sort(b.begin(), b.end());
+
+	cout << "2보다 크거나 같은 첫번째 원소 찾기" << endl;
+	cout << *lower_bound(b.begin(),b.end(),2) << endl;		
+
+	cout << "3보다 큰 첫번째 원소 찾기" << endl;
+	cout << *upper_bound(b.begin(), b.end(),3) << endl;
+
+	cout << "1 존재하는지" << endl;
+	cout << binary_search(b.begin(), b.end(), 1) << endl;
+	return 0;
+}
+
+출력
+2보다 크거나 같은 첫번째 원소 찾기
+2
+3보다 큰 첫번째 원소 찾기
+4
+1 존재하는지
+1
+```
