@@ -5,6 +5,10 @@
 원격 저장소를 분산하여 clone 할 경우
 시작 verson 부터 최신 version 까지 다 갖고있음
 
+
+<br/>
+
+
 # Git 단어 정리
 
 **Commit :** 로컬 저장소에 변경사항을 등록하는 것
@@ -22,11 +26,15 @@
 
 파일 → 보기→ 숨긴항목 보이기 하면 .git 폴더 보인다
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e22fed73-a652-4441-9ad1-2d62a9a653a5/Untitled.png)
+![1번사진](img/git강의0.png)
+
+<br/>
+
+
 
 **git 상태**
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6c48051d-a538-41a3-b6e8-bbe259dc4775/Untitled.png)
+![Untitled](img/git강의1.png)
 
 Unmodified : 서버에 있는 버전과 local 버전이 같은 버전
 
@@ -35,6 +43,9 @@ Modified : Local에 서버에서 있는 버전에서 수정된 파일이 저장�
 Untracked : git에 추적되지 않은 파일 ( Local에서 새로 생성한 파일 ) 
 
 Staged : Commit 하려는 파일들을 모음 → add명령어 이용
+
+<br/>
+
 
 **CMD 창에서 git 명렁어 이용하여 버전관리**
 
@@ -99,7 +110,9 @@ Untracked files:
 no changes added to commit (use "git add" and/or "git commit -a")
 ```
 
-[README.md](http://README.md)
+
+<br/>
+
 
 aaa.txt 파일 업데이트 함
 
@@ -169,6 +182,9 @@ Changes not staged for commit:
 no changes added to commit (use "git add" and/or "git commit -a")
 ```
 
+<br/>
+
+
 # Issue
 
 활동 내역 정리 ( 기존 기능의 개발, 내부 수정 …. )
@@ -177,9 +193,13 @@ commit한 근거 issue 관리 시스템에 있어야 함
 
 assignes 나로 함
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0d53b09b-7587-42a9-ac7e-47152d764984/Untitled.png)
+![Untitled](img/git강의2.png)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/41f990dc-0b6d-4a54-91ed-8084c1fa36e4/Untitled.png)
+![Untitled](img/git강의3.png)
+
+<br/>
+
+
 
 commit할때 Issue랑 연동해서 하면 좋음
 
@@ -188,15 +208,30 @@ E:\20230321>git commit -m "#1 아이디 체크인"
 [main 036188c] #1 아이디 체크인
 ```
 
+
+<br/>
+
+
+
 commit할때 “ #숫자 “ 를 맨 앞에 붙이면 숫자 번째에 해당하는 Issue랑 연동 가능!
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c5662f71-498c-4571-8e38-5da40ccb16f6/Untitled.png)
+![Untitled](img/git강의4.png)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7bffd76f-4c25-44bf-bda1-f1cd4877748c/Untitled.png)
+![Untitled](img/git강의5.png)
+
+
+<br/>
+
+
 
 이렇게 commit 메세지 앞에 “#숫자” 를 붙이면 Issue와 연동됨
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5108b4a3-5f60-4641-92e0-2a7b6df63700/Untitled.png)
+![Untitled](img/git강의6.png)
+
+
+<br/>
+
+
 
 **깃 꿀팁**
 
